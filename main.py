@@ -5,6 +5,14 @@ import pandas as pd
 from consumption_profile import Building
 from irradiance import Irradiance
 
+def response_threshold_model(stimulus, y, theta0, beta, alpha, delta_t, time):
+
+    theta = theta0 - y*beta*delta_t + (1-y)*alpha*delta_t
+
+    q = pow(stimulus, 2)/(pow(stimulus, 2) + pow(theta, 2))
+
+    return pd.DataFrame({'probability': q, 'Date_Time': time})
+
 #Define route file
 url_file = 'C:/Users/MASTER/Documents/Visual Studio Code/Python/ec-smart-grid/data/household_power_consumption.csv'
 start_date = "2007-06-30 00:00:00"
@@ -47,6 +55,17 @@ process['power_pv_1'] = 1*1.92*process['irradiance']
 process['power_pv_2'] = 2*1.92*process['irradiance']
 process['power_pv_5'] = 5*1.92*process['irradiance']
 process['Global_active_power'] = 1000*process['Global_active_power']
+
+q_pv = response_threshold_model(process['irradiance'], process['power_pv_2']/process['Global_active_power'], 250, 0.05, 0.05, 60, process['Date_Time'])
+print(q_pv)
+#https://unipython.com/analisis-de-series-temporales-con-la-libreria-pandas/
+plt.plot(q_pv['Date_Time'], q_pv['probability'])
+plt.xlabel('Timestamp')
+plt.ylabel('Probability')
+plt.grid(True)
+#plt.show()
+
+
 
 
 print(process[['Date_Time', 'irradiance', 'power_pv_1', 'power_pv_2', 'power_pv_5', 'Global_active_power']])
