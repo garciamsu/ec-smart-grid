@@ -71,9 +71,9 @@ plt.grid(True)
 print(process[['Date_Time', 'irradiance', 'power_pv_1', 'power_pv_2', 'power_pv_5', 'Global_active_power']])
 
 fig, (ax1) = plt.subplots(1, sharey=True)
-process['power_pv_1'].plot(ax=ax1, label='power_pv_1')
+#process['power_pv_1'].plot(ax=ax1, label='power_pv_1')
 process['power_pv_2'].plot(ax=ax1, label='power_pv_2')
-process['power_pv_5'].plot(ax=ax1, label='power_pv_5')
+#process['power_pv_5'].plot(ax=ax1, label='power_pv_5')
 process['Global_active_power'].plot(ax=ax1, label='Global_active_power')
 
 ax1.set_xlabel('Time of day')
